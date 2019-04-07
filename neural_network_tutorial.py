@@ -41,16 +41,12 @@ def init_tri_values(nn_structure):
 
 
 def feed_forward(x, W, b):
+    # if it is the first layer, then the input into the weights is x, otherwise,
+    # it is the output from the last layer
     h = {1: x}
     z = {}
     for l in range(1, len(W) + 1):
-        # if it is the first layer, then the input into the weights is x, otherwise,
-        # it is the output from the last layer
-        if l == 1:
-            node_in = x
-        else:
-            node_in = h[l]
-        z[l+1] = W[l].dot(node_in) + b[l] # z^(l+1) = W^(l)*h^(l) + b^(l)
+        z[l+1] = W[l].dot(h[l]) + b[l] # z^(l+1) = W^(l)*h^(l) + b^(l)
         h[l+1] = f(z[l+1]) # h^(l) = f(z^(l))
     return h, z
 
